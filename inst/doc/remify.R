@@ -129,6 +129,22 @@ attr(edgelist_reh, "typeID")[[1]] # printing out the types ID's observed at the 
 attr(edgelist_reh, "dyadIDactive")[[1]] # printing out the ID's of the active dyads at the first time point
 
 ## -----------------------------------------------------------------------------
+time_points <- c(4,10,10,10,10,10)
+waiting_times <- diff(time_points) # waiting_times: [1] 6 0 0 0 0 calculated as t[m]-t[m-1]
+
+## -----------------------------------------------------------------------------
+rep(waiting_times[1]/5,5)# 5 is the number of events in the example observed at the same time (10)
+
+## -----------------------------------------------------------------------------
+time_points <- c(4,10,10,10,10,10)
+diff(time_points) # waiting times calculated as t[m]-t[m-1]
+which(diff(time_points)==0) # indices of simultaneous events, excluding the first simultaneous event 
+
+## -----------------------------------------------------------------------------
+# attr(edgelist_reh, "evenly_spaced_interevent_time") 
+# attr(edgelist_reh, "indices_simultaneous_events")
+
+## -----------------------------------------------------------------------------
 summary(edgelist_reh) # same output as `print(edgelist_reh)` or just `edgelist_reh`
 
 ## -----------------------------------------------------------------------------
@@ -155,7 +171,7 @@ getTypeID(x = edgelist_reh, typeName = "cooperation")
 ## -----------------------------------------------------------------------------
 getDyadID(x = edgelist_reh, actor1 = "Alexander", actor2 = "Charles", type = "cooperation")
 
-## -----------------------------------------------------------------------------
+## ----out.width="50%", fig.align = "center", dev=c("jpeg")---------------------
 op <- par(no.readonly = TRUE)
 par(mai=rep(0.8,4), cex.main=0.9, cex.axis=0.75)
 plot(x=edgelist_reh,which=1,n_intervals=13) # histogram of inter-event times

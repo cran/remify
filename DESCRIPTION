@@ -1,8 +1,8 @@
 Type: Package
 Package: remify
 Title: Processing and Transforming Relational Event History Data
-Version: 3.2.0
-Date: 2023-11-03
+Version: 3.2.2
+Date: 2023-11-21
 Authors@R: 
     c(person(given = "Giuseppe",
              family = "Arena",
@@ -49,9 +49,8 @@ VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.3
-SystemRequirements: GNU make
 NeedsCompilation: yes
-Packaged: 2023-11-07 11:44:52 UTC; giuseppe
+Packaged: 2023-11-21 21:38:48 UTC; giuseppe
 Author: Giuseppe Arena [aut, cre],
   Rumana Lakdawala [ctb],
   Marlyne Meijerink-Bosman [ctb],
@@ -61,4 +60,4 @@ Author: Giuseppe Arena [aut, cre],
   Roger Leenders [ctb],
   Joris Mulder [ctb]
 Repository: CRAN
-Date/Publication: 2023-11-07 19:10:02 UTC
+Date/Publication: 2023-11-22 09:20:09 UTC

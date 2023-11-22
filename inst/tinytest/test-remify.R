@@ -33,7 +33,7 @@ out <- remify(edgelist = reh_loc$edgelist,
                   directed = TRUE, # events are directed
                   ordinal = FALSE, # REM with waiting times
                   origin = reh_loc$origin,
-                  omit_dyad = reh_loc$omit_dyad,
+                  omit_dyad = NULL,
                   model = "tie")
 expect_null(out$C)
 expect_null(out$edgelist$type)
@@ -82,7 +82,7 @@ expect_true(attr(out,"weighted"))
 
 # processing the input `omit_dyad` when the network is undirected
 reh_loc <- randomREH
-reh_loc$omit_dyad[[2]]$dyad <- rbind(reh_loc$omit_dyad[[2]]$dyad,c("Megan","Zackary",NA))
+reh_loc$omit_dyad[[2]]$dyad <- rbind(reh_loc$omit_dyad[[2]]$dyad,c("Megan","Zackary",NA),c(NA,"Alexander",NA))
 out <- remify(edgelist = reh_loc$edgelist,
                   actors = reh_loc$actors,
                   types = reh_loc$types, 
@@ -92,6 +92,17 @@ out <- remify(edgelist = reh_loc$edgelist,
                   omit_dyad = reh_loc$omit_dyad,
                   model = "tie")
 expect_true(!is.null(out$omit_dyad))
+
+# testing sorting of actor1 and actor2 in omit_dyad objects when directed = FALSE
+reh_loc$omit_dyad[[2]]$dyad <- rbind(reh_loc$omit_dyad[[2]]$dyad,c("Zackary","Megan",NA))
+expect_silent(remify(edgelist = reh_loc$edgelist,
+                  actors = reh_loc$actors,
+                  types = reh_loc$types, 
+                  directed = FALSE, # events are not directed
+                  ordinal = FALSE, # REM with waiting times
+                  origin = reh_loc$origin,
+                  omit_dyad = reh_loc$omit_dyad,
+                  model = "tie"))
 
 # if the input `omit_dyad` contains time intervals of the type [start = NA, stop = x] or [start = x, stop = NA]
 reh_loc <- randomREH
@@ -107,8 +118,12 @@ out <- remify(edgelist = reh_loc$edgelist,
                   model = "tie")
 expect_true(!is.null(out$omit_dyad))
 
-## creating a new omit_dyad object to test more complex overlapping of time intervals
-# [ ... code here ... ]
+
+# if riskset = "active" and model = "actor"
+reh_loc <- randomREH
+expect_silent(remify(edgelist = reh_loc$edgelist,
+                  model = "actor",
+                  riskset = "active"))
 
 
 ### here the new test
@@ -141,6 +156,7 @@ expect_true(!is.null(out$omit_dyad))
 # test omit_dyad object with sequence with simultaneous events
 reh_loc <- randomREH
 reh_loc$edgelist$time <- as.Date(reh_loc$edgelist$time)
+reh_loc$edgelist$time[9910:9915] <- reh_loc$edgelist$time[9910:9915]+c(1:6)
 reh_loc$origin <- as.Date(reh_loc$origin)-1
 reh_loc$omit_dyad[[1]]$time <- as.Date(reh_loc$omit_dyad[[1]]$time)
 reh_loc$omit_dyad[[2]]$time <- as.Date(reh_loc$omit_dyad[[1]]$time)
@@ -152,7 +168,7 @@ out <- remify(edgelist = reh_loc$edgelist,
                   origin = reh_loc$origin,
                   omit_dyad = reh_loc$omit_dyad,
                   model = "tie")
-
+expect_identical(names(attributes(out)),c("names","class","with_type","weighted","directed","ordinal","model","riskset","dictionary","origin","ncores","dyadID","actor1ID","actor2ID","typeID","evenly_spaced_interevent_time","indices_simultaneous_events"))
 
 # `time` in 'omit_dyad' defined as c(NA,NA)
 reh_loc <- randomREH
@@ -170,14 +186,14 @@ expect_silent(
 # test on unsorted time variable (Rcpp level) 
 reh_loc <- randomREH
 reh_loc$edgelist$time <- reh_loc$edgelist$time[sample(1:dim(reh_loc$edgelist)[1],size=dim(reh_loc$edgelist)[1],replace=FALSE)]
-out <- remify(edgelist = reh_loc$edgelist,
+out <- suppressWarnings(remify(edgelist = reh_loc$edgelist,
                   actors = reh_loc$actors,
                   types = reh_loc$types, 
                   directed = TRUE, # events are directed
                   ordinal = FALSE, # REM with waiting times
                   origin = NULL,
                   omit_dyad = NULL,
-                  model = "tie")
+                  model = "tie"))
 expect_equal(sort(reh_loc$edgelist$time),out$edgelist[,1])
 
 
@@ -191,6 +207,17 @@ expect_silent(remify(edgelist = randomREH$edgelist,
                   omit_dyad = randomREH$omit_dyad,
                   model = "tie",
                   ncores = NULL))
+
+# test on argument `riskset` as NULL (default is 'full')
+expect_silent(remify(edgelist = randomREH$edgelist,
+                  actors = randomREH$actors,
+                  types = randomREH$types, 
+                  riskset = NULL,
+                  directed = TRUE, # events are directed
+                  ordinal = FALSE, # REM with waiting times
+                  origin = randomREH$origin,
+                  omit_dyad = randomREH$omit_dyad,
+                  model = "tie"))                  
 
 # check snapshots [[At the moment tonly testing that the expectation of an stdout - should compare with a snapshot defined in pattern]]
 
@@ -293,3 +320,95 @@ expect_identical(names(attributes(out)),c("names","class","with_type","weighted"
 expect_false(attr(out,"ordinal")) 
 expect_true(attr(out,"directed"))
 expect_identical(attr(out,"model"),"actor")
+
+## tests on ordinal = TRUE ##
+expect_silent(remify(edgelist = randomREH$edgelist, ordinal = TRUE, model = "tie"))
+expect_silent(remify(edgelist = randomREH$edgelist, ordinal = TRUE, model = "actor"))
+
+#
+
+# tests on edgelist processing without self-loops removal
+
+#
+
+## weighted 
+reh_loc <- randomREH
+reh_loc$edgelist$weight <- as.numeric(reh_loc$edgelist$time)**0.5 # adding a fake weight
+
+### weighted - C>1 - tie-oriented model
+expect_silent(remify(edgelist = reh_loc$edgelist, model = "tie"))
+
+### weighted - C>1 - actor-oriented model
+expect_silent(remify(edgelist = reh_loc$edgelist, model = "actor"))
+
+### weighted - C=1 - tie-oriented model
+reh_loc$edgelist$type <- "1"
+expect_silent(remify(edgelist = reh_loc$edgelist, model = "tie"))
+
+### weighted - C=1 - actor-oriented model
+expect_silent(remify(edgelist = reh_loc$edgelist, model = "actor"))
+
+## not weighted 
+reh_loc <- randomREH
+
+### not weighted - C>1 - tie-oriented model
+expect_silent(remify(edgelist = reh_loc$edgelist, model = "tie"))
+
+### not weighted - C>1 - actor-oriented model
+expect_silent(remify(edgelist = reh_loc$edgelist, model = "actor"))
+
+### not weighted - C=1 - tie-oriented model
+reh_loc$edgelist$type <- "1"
+expect_silent(remify(edgelist = reh_loc$edgelist, model = "tie"))
+
+### not weighted - C=1 - actor-oriented model
+expect_silent(remify(edgelist = reh_loc$edgelist, model = "actor"))
+
+#
+
+# tests on edgelist processing with self-loops removal
+
+#
+
+## weighted 
+reh_loc <- randomREH
+reh_loc$edgelist$actor1[1:50] <- reh_loc$edgelist$actor2[1:50]
+reh_loc$edgelist$weight <- as.numeric(reh_loc$edgelist$time)**0.5 # adding a fake weight
+
+### weighted - C>1 - tie-oriented model
+out <- suppressWarnings(remify(edgelist = reh_loc$edgelist, model = "tie"))
+expect_equal(dim(reh_loc$edgelist)[1]-50,out$M)
+
+### weighted - C>1 - actor-oriented model
+out <- suppressWarnings(remify(edgelist = reh_loc$edgelist, model = "actor"))
+expect_equal(dim(reh_loc$edgelist)[1]-50,out$M)
+
+### weighted - C=1 - tie-oriented model
+reh_loc$edgelist$type <- "1"
+out <- suppressWarnings(remify(edgelist = reh_loc$edgelist, model = "tie"))
+expect_equal(dim(reh_loc$edgelist)[1]-50,out$M)
+
+### weighted - C=1 - actor-oriented model
+out <- suppressWarnings(remify(edgelist = reh_loc$edgelist, model = "actor"))
+expect_equal(dim(reh_loc$edgelist)[1]-50,out$M)
+
+## not weighted 
+reh_loc <- randomREH
+reh_loc$edgelist$actor1[1:50] <- reh_loc$edgelist$actor2[1:50]
+
+### not weighted - C>1 - tie-oriented model
+out <- suppressWarnings(remify(edgelist = reh_loc$edgelist, model = "tie"))
+expect_equal(dim(reh_loc$edgelist)[1]-50,out$M)
+
+### not weighted - C>1 - actor-oriented model
+out <- suppressWarnings(remify(edgelist = reh_loc$edgelist, model = "actor"))
+expect_equal(dim(reh_loc$edgelist)[1]-50,out$M)
+
+### not weighted - C=1 - tie-oriented model
+reh_loc$edgelist$type <- "1"
+out <- suppressWarnings(remify(edgelist = reh_loc$edgelist, model = "tie"))
+expect_equal(dim(reh_loc$edgelist)[1]-50,out$M)
+
+### not weighted - C=1 - actor-oriented model
+out <- suppressWarnings(remify(edgelist = reh_loc$edgelist, model = "actor"))
+expect_equal(dim(reh_loc$edgelist)[1]-50,out$M)

@@ -30,7 +30,7 @@ N <- length(randomREHsmall$actors)
 
 ## ----include = TRUE-----------------------------------------------------------
 # no event type, we set it to an empty string
-sorted_types <- c("") 
+sorted_types <- c(" ") 
 
 # C = 1 for 'randomREHsmall'
 C <- length(sorted_types) 
@@ -76,7 +76,7 @@ dim(dyad_mat)[1]
 # (attribute available only for tie-oriented modeling)
 head(attr(reh,"dyad"))
 
-## ----echo = FALSE-------------------------------------------------------------
+## ----echo = FALSE, dev=c("jpeg")----------------------------------------------
 risk_set <- expand.grid(sorted_actors,sorted_actors)
 dyad_occurred <- c(11,4,11,11)
 
@@ -126,7 +126,7 @@ mtext(text = bquote(t[.(m)]), side=3, line=0, outer=FALSE, adj=1, at=floor(N/2)+
 
 par(op)
 
-## ----echo = FALSE-------------------------------------------------------------
+## ----echo = FALSE, out.width="50%", dev=c("jpeg")-----------------------------
 # ... saving current graphical parameters
 op <- par(no.readonly = TRUE)
 
@@ -167,7 +167,7 @@ mtext(text = bquote(t[.(m)]), side=3, line=0, outer=FALSE, adj=1, at=floor(N/2)+
 
 par(op)
 
-## ----echo = FALSE-------------------------------------------------------------
+## ----echo = FALSE, dev=c("jpeg")----------------------------------------------
 dyad_occurred <- c(11,4,11,11) 
 
 # ... saving current graphical parameters
@@ -221,7 +221,7 @@ mtext(text = bquote(t[.(m)]), side=3, line=0, outer=FALSE, adj=1, at=floor(N/2)+
 
 par(op)
 
-## ----echo = FALSE-------------------------------------------------------------
+## ----echo = FALSE, out.width="50%", dev=c("jpeg")-----------------------------
 # ... saving current graphical parameters
 op <- par(no.readonly = TRUE)
 
@@ -254,8 +254,8 @@ rect(col-0.5,row-0.5,col+0.5,row+0.5,col=value,border="#f1f1f1")
 text(x = c(1:N), y = 0, labels = sorted_actors, srt = 90, pos = 1, xpd = TRUE,  adj = c(0.5,0), offset = 1.5,cex = 0.8) 
 text(x = 0, y = c(1:N), labels = sorted_actors, srt = 0, pos = 2, xpd = TRUE,  adj = c(1,0.5), offset = -0.5, cex = 0.8)
 # axes names 
-mtext(text  = "actor2", side=1, line=4, outer=FALSE, adj=0, at=floor(N/2),cex = 0.6)
-mtext(text = "actor1", side=2, line=0, outer=FALSE, adj=1, at=floor(N/2)+1,cex = 0.6)
+mtext(text  = "actor2", side=1, line=4, outer=FALSE, adj=0, at=floor(N/2))
+mtext(text = "actor1", side=2, line=0, outer=FALSE, adj=1, at=floor(N/2)+1)
 mtext(text = bquote(t[.(m)]), side=3, line=0, outer=FALSE, adj=1, at=floor(N/2)+1)
 })
 }
@@ -311,7 +311,7 @@ randomREH$omit_dyad[[5]]$time
 ## -----------------------------------------------------------------------------
 randomREH$omit_dyad[[5]]$dyad
 
-## ----echo=FALSE---------------------------------------------------------------
+## ----echo=FALSE, out.width="50%", dev=c("jpeg")-------------------------------
 # ... saving current graphical parameters
 op <- par(no.readonly = TRUE)
 
@@ -343,7 +343,7 @@ edgelist_reh <- remify::remify(edgelist = randomREH$edgelist,
                     omit_dyad = randomREH$omit_dyad)
                                         
 
-## ----echo=FALSE---------------------------------------------------------------
+## ----echo=FALSE, out.width="50%", dev=c("jpeg")-------------------------------
 # ... saving current graphical parameters
 op <- par(no.readonly = TRUE)
 
@@ -374,7 +374,7 @@ for(i in 1:length(modification_idx)){
  start_stop_times[i,2] <- randomREH$edgelist$time[start_stop_idx[2]]
 }
 
-## ----echo=FALSE---------------------------------------------------------------
+## ----echo=FALSE, out.width="50%", dev=c("jpeg")-------------------------------
 # ... saving current graphical parameters
 op <- par(no.readonly = TRUE)
 
@@ -388,7 +388,7 @@ abline(v = unique(c(start_stop_times$start, start_stop_times$stop)) , lwd = 1, l
 
 par(op)
 
-## ----echo=FALSE---------------------------------------------------------------
+## ----echo=FALSE, out.width="50%", dev=c("jpeg")-------------------------------
 # ... saving current graphical parameters
 op <- par(no.readonly = TRUE)
 

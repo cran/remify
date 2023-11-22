@@ -111,7 +111,6 @@ remify <- function(edgelist,
                 origin = NULL,
                 omit_dyad = NULL,
                 ncores = 1L
-                #[[to work on]] timeunit = c("second","minute","hour","day","week") this input will process the intervent time to different time unit
                 ){
     
     # (1) Checking for 'edgelist' input object
@@ -162,6 +161,10 @@ remify <- function(edgelist,
     }
     if(!is.null(model) & !(model %in% c("tie","actor"))) stop("`model` must be set to either `tie` or `actor`.")
 
+    if((model == "actor") & (directed == FALSE)){
+        stop("actor-oriented model can only work with directed networks")
+    }   
+
     # (3) Checking for time variable classes (they must be the same)
 
     # input `origin` and `time` column in `edgelist`
@@ -190,6 +193,11 @@ remify <- function(edgelist,
     }
 
     # Checking argument 'riskset'
+
+    if(is.null(riskset)){
+      riskset <- "full"
+    }
+
     riskset  <- match.arg(arg = riskset, choices = c("full", "active", "manual"), several.ok = FALSE)
     active <- FALSE
     if(riskset == "active"){
@@ -201,14 +209,16 @@ remify <- function(edgelist,
     ## NA's in `edgelist` :
  
 	  if(anyNA(edgelist)){
-		warning("`edgelist` contains missing data: incomplete events are dropped.") # `edgelist` contains missing data: incomplete events (rows) are dropped.
-		to_remove <- unique(which(is.na(edgelist), arr.ind = T)[,1])
-		edgelist <- edgelist[-to_remove,]
-    #[[to check]]if(is.null(dim(edgelist)[1])) stop("The `edgelist` object is empty.")
+      warning("`edgelist` contains missing data: incomplete events are dropped.") # `edgelist` contains missing data: incomplete events (rows) are dropped.
+      to_remove <- unique(which(is.na(edgelist), arr.ind = T)[,1])
+      if(length(to_remove) == dim(edgelist)[1]){
+        stop("`edgelist` object is empty.")
+      }
+      edgelist <- edgelist[-to_remove,]
     }
     
     # Pre-processing relational event history (remifyCpp.cpp)
-    out <- remifyCpp(input_edgelist = edgelist,
+    out <- tryCatch(remifyCpp(input_edgelist = edgelist,
                     actors = actors, 
                     types = types, 
                     directed = directed,
@@ -217,18 +227,28 @@ remify <- function(edgelist,
                     omit_dyad = omit_dyad,
                     model = model,
                     active = active,
-                    ncores = ncores)
-    if(!is.null(out$order)) edgelist <- edgelist[out$order+1,]
-    
+                    ncores = ncores),error= function(e) e)
+
+    # handling potential errors coming from C++  - stopping function            
+    if(any(class(out) %in% c("error"))){
+      stop(out$message)
+    }
+
+    # handling warning messages on R-console
+    if(any(names(out) %in% "warnings")){
+      if(length(out$warnings)>=1)
+        for(w in 1:length(out$warnings)){
+          warning(out$warnings[[w]])
+        }
+    }
     str_out <- structure(list(M = out$M
                             ,N = out$N
                             ,C = out$C
                             ,D = out$D
                             ,intereventTime = out$intereventTime
-                            ,edgelist = edgelist
+                            ,edgelist = out$edgelist
                             )
                             ,class="remify")
-
     attr(str_out, "with_type") <- out$with_type
     attr(str_out, "weighted") <- out$weighted
     attr(str_out, "directed") <- directed
@@ -241,33 +261,43 @@ remify <- function(edgelist,
 
     # ID of actors, types and dyads
     attr(str_out, "dyadID") <- out$dyad
-    attr(str_out,"actor1ID") <- out$edgelist$actor1_ID
-    attr(str_out,"actor2ID") <- out$edgelist$actor2_ID
+    attr(str_out,"actor1ID") <- out$actor1_ID
+    attr(str_out,"actor2ID") <- out$actor2_ID
     if(out$with_type){
-        attr(str_out,"typeID") <- out$edgelist$type_ID
+        attr(str_out,"typeID") <- out$type_ID
     }
     # ID's when riskset = "active"
     if(active){
       str_out$activeD <- out$omit_dyad$D_active
+      out$omit_dyad$D_active <- NULL
       if(model == "tie"){
         attr(str_out, "dyadIDactive") <- out$omit_dyad$dyadIDactive 
-        out$omit_dyad <- NULL
+        out$omit_dyad$dyadIDactive <- NULL
       }
+
     }   
 
     str_out$omit_dyad <- out$omit_dyad
-    out <- NULL # free-ing space
-    
+    evenly_spaced_interevent_time <- NULL
+    rows_to_remove <- NULL
+    if(!is.null(out$evenly_spaced_interevent_time)){
+      evenly_spaced_interevent_time <- out$evenly_spaced_interevent_time
+      rows_to_remove <- out$rows_to_remove
+    }
+    out <- NULL # free-ing space [[now]]
+
     # modifying remify object to account for simultaneous events
-    rows_to_remove <- which(str_out$intereventTime == 0) # processing the co-occurrence of events
-    if(length(rows_to_remove) != 0){
-        str_out$intereventTime <- str_out$intereventTime[-rows_to_remove] # updating interevent time vector
-        if(!is.null(str_out$omit_dyad)){
-          str_out$omit_dyad$time <- str_out$omit_dyad$time[-rows_to_remove] # updating vector of risk set changes over time
-        }
+    if(!is.null(rows_to_remove)){
+        #attribute intereventTime evenly spaced
+        attr(str_out, "evenly_spaced_interevent_time") <- evenly_spaced_interevent_time 
+        # removing zeros from intereventTime
+        str_out$intereventTime <- str_out$intereventTime[-rows_to_remove] # updating interevent time vector 
+        # saving indices of simultaneous events to be removed (for remstimate)
+        attr(str_out, "indices_simultaneous_events") <- rows_to_remove
+        #str_out$intereventTime and str_out$omit_dyad$time are processed in remstimate depending on method=c("pe","pt") from remstats 
         str_out$E <- str_out$M # number of events
-        str_out$M <- length(str_out$intereventTime) # overwrite (lower) number of time points
-        time_unique <-unique(str_out$edgelist$time)
+        str_out$M <- str_out$M-length(rows_to_remove) # overwrite (lower) number of time points
+        time_unique <- unique(str_out$edgelist$time)
 
         # tie-oriented modeling
         actor1 <- list()
@@ -668,6 +698,12 @@ getDyad.remify <- function(x, dyadID, active = FALSE) {
     }
   }
   composition <- getEventsComposition(dyads = dyadID_full, N = x$N, D = x$D,directed = attr(x,"directed"), ncores  = attr(x,"ncores"))
+
+  # if at least one dyad is not found (<NA>,<NA>,<NA>), then throw warning
+  if(any(is.na(composition))){
+    warning("one or more dyad ID's can't be found in the remify object 'x': dyad ID's must range between 1 and x$D. NA's are returned for such ID's")
+  }
+
   if(attr(x,"with_type")){ # output with 'type' column
     out <- data.frame(dyadID = dyadID, actor1 = dict_loc$actors$actorName[composition[,1]], actor2 = dict_loc$actors$actorName[composition[,2]], type = dict_loc$types$typeName[composition[,3]])  
   }
