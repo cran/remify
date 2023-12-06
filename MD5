@@ -1,4 +1,4 @@
-0846815ff751193ca2beb02277ba6d0c *DESCRIPTION
+d9a6706fcf5bdac31657baa9bbb826c3 *DESCRIPTION
 682e6d07d6f4816b81ad5d5cd09479b2 *LICENSE
 b9ae98665d0e04f79010283eb3f74770 *NAMESPACE
 3b0e41a0889d7e2bb4963bc41bc12e13 *R/RcppExports.R
@@ -15,7 +15,7 @@ bf3550b3ca71e22a3abccd5b46c2440d *inst/doc/rehshape.Rmd
 13c5852937190199a90e10c1b54dd13b *inst/doc/rehshape.html
 4f952e12e4385866cf561a127672a700 *inst/doc/remify.R
 2ee0cf178cf316b17570fc1c18aa8f0d *inst/doc/remify.Rmd
-e664ff23fc69349ad33e49e7e86d8967 *inst/doc/remify.html
+e3ff9cd9c5f30a558cc0373b9d61d1cc *inst/doc/remify.html
 2085ac3940ad7f32d74e48ee3f56a2dc *inst/doc/riskset.R
 b287871ab4e49c66cbaedab0f1854bab *inst/doc/riskset.Rmd
 6f2e27583d8689c8659f783684b3f703 *inst/doc/riskset.html
@@ -46,7 +46,7 @@ fe0a8e87aa1a2404abf1430800572ab4 *man/rehshape.Rd
 7416727484487ce90fd3ffabbe0a047a *src/Makevars.win
 8da3ac7d29e9f8628ddc19e85a8bd1dd *src/RcppExports.cpp
 eef93623b96961178e70b2cf36c57532 *src/messages.h
-0357debc6d0b14b8f52458c35c7c02da *src/remify.cpp
+1b0966e70119f60101146490160c2f96 *src/remify.cpp
 01dc09f99ebd8c2843c0481b35f75432 *tests/tinytest.R
 bf3550b3ca71e22a3abccd5b46c2440d *vignettes/rehshape.Rmd
 5524be4c9bf49fccaffbea587c316a1e *vignettes/remify-theme.css
