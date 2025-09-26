@@ -76,7 +76,7 @@ dim(dyad_mat)[1]
 # (attribute available only for tie-oriented modeling)
 head(attr(reh,"dyad"))
 
-## ----echo = FALSE, dev=c("jpeg")----------------------------------------------
+## ----echo = FALSE, dev=c("jpeg"), dev.args = list(bg = "white"), fig.alt = "Visualizing risk set composition at each time point"----
 risk_set <- expand.grid(sorted_actors,sorted_actors)
 dyad_occurred <- c(11,4,11,11)
 
@@ -126,7 +126,7 @@ mtext(text = bquote(t[.(m)]), side=3, line=0, outer=FALSE, adj=1, at=floor(N/2)+
 
 par(op)
 
-## ----echo = FALSE, out.width="50%", dev=c("jpeg")-----------------------------
+## ----echo = FALSE, out.width="50%", dev=c("jpeg"), dev.args = list(bg = "white"), fig.alt = "Visualizing risk set composition at each time point - full risk set"----
 # ... saving current graphical parameters
 op <- par(no.readonly = TRUE)
 
@@ -167,7 +167,7 @@ mtext(text = bquote(t[.(m)]), side=3, line=0, outer=FALSE, adj=1, at=floor(N/2)+
 
 par(op)
 
-## ----echo = FALSE, dev=c("jpeg")----------------------------------------------
+## ----echo = FALSE, dev=c("jpeg"), dev.args = list(bg = "white"), fig.alt = "Visualizing risk set composition at each time point - manual risk set for directed network"----
 dyad_occurred <- c(11,4,11,11) 
 
 # ... saving current graphical parameters
@@ -221,7 +221,7 @@ mtext(text = bquote(t[.(m)]), side=3, line=0, outer=FALSE, adj=1, at=floor(N/2)+
 
 par(op)
 
-## ----echo = FALSE, out.width="50%", dev=c("jpeg")-----------------------------
+## ----echo = FALSE, out.width="50%", dev=c("jpeg"), dev.args = list(bg = "white"), fig.alt = "Visualizing risk set composition at each time point - manual risk set for undirected network"----
 # ... saving current graphical parameters
 op <- par(no.readonly = TRUE)
 
@@ -311,7 +311,7 @@ randomREH$omit_dyad[[5]]$time
 ## -----------------------------------------------------------------------------
 randomREH$omit_dyad[[5]]$dyad
 
-## ----echo=FALSE, out.width="50%", dev=c("jpeg")-------------------------------
+## ----echo=FALSE, out.width="50%", dev=c("jpeg"), dev.args = list(bg = "white"), fig.alt = "Plot showing manual risk set modifications from the omit_dyad argument"----
 # ... saving current graphical parameters
 op <- par(no.readonly = TRUE)
 
@@ -328,7 +328,6 @@ for(r in 1:length(randomREH$omit_dyad)){
     segments(x0=randomREH$omit_dyad[[r]]$time[1],y0=r,x1=randomREH$omit_dyad[[r]]$time[2],y1=r,col="black", lwd = 2)
     #randomREH$omit_dyad[[r]]$time
 }
-
 par(op)
 
 ## -----------------------------------------------------------------------------
@@ -343,7 +342,7 @@ edgelist_reh <- remify::remify(edgelist = randomREH$edgelist,
                     omit_dyad = randomREH$omit_dyad)
                                         
 
-## ----echo=FALSE, out.width="50%", dev=c("jpeg")-------------------------------
+## ----echo=FALSE, out.width="50%", dev=c("jpeg"), dev.args = list(bg = "white"), fig.alt = "Plot showing manual risk set before processing"----
 # ... saving current graphical parameters
 op <- par(no.readonly = TRUE)
 
@@ -374,7 +373,7 @@ for(i in 1:length(modification_idx)){
  start_stop_times[i,2] <- randomREH$edgelist$time[start_stop_idx[2]]
 }
 
-## ----echo=FALSE, out.width="50%", dev=c("jpeg")-------------------------------
+## ----echo=FALSE, out.width="50%", dev=c("jpeg"), dev.args = list(bg = "white"), fig.alt = "Plot showing manual risk set while processing"----
 # ... saving current graphical parameters
 op <- par(no.readonly = TRUE)
 
@@ -388,7 +387,7 @@ abline(v = unique(c(start_stop_times$start, start_stop_times$stop)) , lwd = 1, l
 
 par(op)
 
-## ----echo=FALSE, out.width="50%", dev=c("jpeg")-------------------------------
+## ----echo=FALSE, out.width="50%", dev=c("jpeg"), dev.args = list(bg = "white"), fig.alt = "Plot showing manual risk set modifications after processing"----
 # ... saving current graphical parameters
 op <- par(no.readonly = TRUE)
 

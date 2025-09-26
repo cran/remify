@@ -1,8 +1,8 @@
 Type: Package
 Package: remify
 Title: Processing and Transforming Relational Event History Data
-Version: 3.2.8
-Date: 2025-01-28
+Version: 3.2.9
+Date: 2025-09-26
 Authors@R: 
     c(person(given = "Giuseppe",
              family = "Arena",
@@ -46,8 +46,9 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.2
 NeedsCompilation: yes
-Packaged: 2025-01-28 17:14:41 UTC; giuseppearena
-Author: Giuseppe Arena [aut, cre] (<https://orcid.org/0000-0001-5204-3326>),
+Packaged: 2025-09-26 07:43:46 UTC; giuseppearena
+Author: Giuseppe Arena [aut, cre] (ORCID:
+    <https://orcid.org/0000-0001-5204-3326>),
   Rumana Lakdawala [ctb],
   Marlyne Meijerink-Bosman [ctb],
   Diana Karimova [ctb],
@@ -56,4 +57,4 @@ Author: Giuseppe Arena [aut, cre] (<https://orcid.org/0000-0001-5204-3326>),
   Roger Leenders [ctb],
   Joris Mulder [ctb]
 Repository: CRAN
-Date/Publication: 2025-01-29 13:20:05 UTC
+Date/Publication: 2025-09-26 23:10:03 UTC

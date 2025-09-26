@@ -171,7 +171,7 @@ getTypeID(x = edgelist_reh, typeName = "cooperation")
 ## -----------------------------------------------------------------------------
 getDyadID(x = edgelist_reh, actor1 = "Alexander", actor2 = "Charles", type = "cooperation")
 
-## ----out.width="50%", fig.align = "center", dev=c("jpeg")---------------------
+## ----out.width="50%", fig.align = "center", dev=c("jpeg"), fig.alt = "summary plots", dev.args = list(bg = "white")----
 op <- par(no.readonly = TRUE)
 par(mai=rep(0.8,4), cex.main=0.9, cex.axis=0.75)
 plot(x=edgelist_reh,which=1,n_intervals=13) # histogram of inter-event times
