@@ -83,12 +83,81 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// getOmitDyadManualRiskSet3
+Rcpp::List getOmitDyadManualRiskSet3(std::string model, arma::uvec actor1, arma::uvec actor2, arma::uvec type, Rcpp::DataFrame manual_riskset, const std::vector<std::string>& actorName, const std::vector<std::string>& typeName, int D, int N, bool directed, bool extend_riskset_by_type, int ncores);
+RcppExport SEXP _remify_getOmitDyadManualRiskSet3(SEXP modelSEXP, SEXP actor1SEXP, SEXP actor2SEXP, SEXP typeSEXP, SEXP manual_risksetSEXP, SEXP actorNameSEXP, SEXP typeNameSEXP, SEXP DSEXP, SEXP NSEXP, SEXP directedSEXP, SEXP extend_riskset_by_typeSEXP, SEXP ncoresSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type model(modelSEXP);
+    Rcpp::traits::input_parameter< arma::uvec >::type actor1(actor1SEXP);
+    Rcpp::traits::input_parameter< arma::uvec >::type actor2(actor2SEXP);
+    Rcpp::traits::input_parameter< arma::uvec >::type type(typeSEXP);
+    Rcpp::traits::input_parameter< Rcpp::DataFrame >::type manual_riskset(manual_risksetSEXP);
+    Rcpp::traits::input_parameter< const std::vector<std::string>& >::type actorName(actorNameSEXP);
+    Rcpp::traits::input_parameter< const std::vector<std::string>& >::type typeName(typeNameSEXP);
+    Rcpp::traits::input_parameter< int >::type D(DSEXP);
+    Rcpp::traits::input_parameter< int >::type N(NSEXP);
+    Rcpp::traits::input_parameter< bool >::type directed(directedSEXP);
+    Rcpp::traits::input_parameter< bool >::type extend_riskset_by_type(extend_riskset_by_typeSEXP);
+    Rcpp::traits::input_parameter< int >::type ncores(ncoresSEXP);
+    rcpp_result_gen = Rcpp::wrap(getOmitDyadManualRiskSet3(model, actor1, actor2, type, manual_riskset, actorName, typeName, D, N, directed, extend_riskset_by_type, ncores));
+    return rcpp_result_gen;
+END_RCPP
+}
+// remifyCpp2
+Rcpp::List remifyCpp2(Rcpp::DataFrame input_edgelist, Rcpp::RObject actors, Rcpp::RObject types, bool directed, bool ordinal, Rcpp::RObject origin, Rcpp::RObject omit_dyad, std::string model, bool active, Rcpp::Nullable<Rcpp::DataFrame> manual_riskset, bool extend_riskset_by_type, int ncores);
+RcppExport SEXP _remify_remifyCpp2(SEXP input_edgelistSEXP, SEXP actorsSEXP, SEXP typesSEXP, SEXP directedSEXP, SEXP ordinalSEXP, SEXP originSEXP, SEXP omit_dyadSEXP, SEXP modelSEXP, SEXP activeSEXP, SEXP manual_risksetSEXP, SEXP extend_riskset_by_typeSEXP, SEXP ncoresSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::DataFrame >::type input_edgelist(input_edgelistSEXP);
+    Rcpp::traits::input_parameter< Rcpp::RObject >::type actors(actorsSEXP);
+    Rcpp::traits::input_parameter< Rcpp::RObject >::type types(typesSEXP);
+    Rcpp::traits::input_parameter< bool >::type directed(directedSEXP);
+    Rcpp::traits::input_parameter< bool >::type ordinal(ordinalSEXP);
+    Rcpp::traits::input_parameter< Rcpp::RObject >::type origin(originSEXP);
+    Rcpp::traits::input_parameter< Rcpp::RObject >::type omit_dyad(omit_dyadSEXP);
+    Rcpp::traits::input_parameter< std::string >::type model(modelSEXP);
+    Rcpp::traits::input_parameter< bool >::type active(activeSEXP);
+    Rcpp::traits::input_parameter< Rcpp::Nullable<Rcpp::DataFrame> >::type manual_riskset(manual_risksetSEXP);
+    Rcpp::traits::input_parameter< bool >::type extend_riskset_by_type(extend_riskset_by_typeSEXP);
+    Rcpp::traits::input_parameter< int >::type ncores(ncoresSEXP);
+    rcpp_result_gen = Rcpp::wrap(remifyCpp2(input_edgelist, actors, types, directed, ordinal, origin, omit_dyad, model, active, manual_riskset, extend_riskset_by_type, ncores));
+    return rcpp_result_gen;
+END_RCPP
+}
+// remify2relventremIdx
+Rcpp::List remify2relventremIdx(arma::vec actor1, arma::vec actor2, arma::vec type, arma::vec dyad, arma::uword M, arma::uword N, arma::uword D, bool with_type, bool directed, std::string model, Rcpp::List omit_dyad, int ncores);
+RcppExport SEXP _remify_remify2relventremIdx(SEXP actor1SEXP, SEXP actor2SEXP, SEXP typeSEXP, SEXP dyadSEXP, SEXP MSEXP, SEXP NSEXP, SEXP DSEXP, SEXP with_typeSEXP, SEXP directedSEXP, SEXP modelSEXP, SEXP omit_dyadSEXP, SEXP ncoresSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type actor1(actor1SEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type actor2(actor2SEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type type(typeSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type dyad(dyadSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type M(MSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type N(NSEXP);
+    Rcpp::traits::input_parameter< arma::uword >::type D(DSEXP);
+    Rcpp::traits::input_parameter< bool >::type with_type(with_typeSEXP);
+    Rcpp::traits::input_parameter< bool >::type directed(directedSEXP);
+    Rcpp::traits::input_parameter< std::string >::type model(modelSEXP);
+    Rcpp::traits::input_parameter< Rcpp::List >::type omit_dyad(omit_dyadSEXP);
+    Rcpp::traits::input_parameter< int >::type ncores(ncoresSEXP);
+    rcpp_result_gen = Rcpp::wrap(remify2relventremIdx(actor1, actor2, type, dyad, M, N, D, with_type, directed, model, omit_dyad, ncores));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_remify_remifyCpp", (DL_FUNC) &_remify_remifyCpp, 10},
     {"_remify_getEventsComposition", (DL_FUNC) &_remify_getEventsComposition, 5},
     {"_remify_getDyadIndex_cpp", (DL_FUNC) &_remify_getDyadIndex_cpp, 5},
     {"_remify_remify2relventrem", (DL_FUNC) &_remify_remify2relventrem, 12},
+    {"_remify_getOmitDyadManualRiskSet3", (DL_FUNC) &_remify_getOmitDyadManualRiskSet3, 12},
+    {"_remify_remifyCpp2", (DL_FUNC) &_remify_remifyCpp2, 12},
+    {"_remify_remify2relventremIdx", (DL_FUNC) &_remify_remify2relventremIdx, 12},
     {NULL, NULL, 0}
 };
 

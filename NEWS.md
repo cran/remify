@@ -1,3 +1,16 @@
+# remify 4.0.0
+
+* Date: 2026-04-25
+* new remify version ready for remverse
+
+# remify 3.2.8.9000
+
+* Date: 2026-03-26
+* remify2() added
+* riskset = 'manual' updated
+* extend_riskset_by_type argument add
+* argument time.units added
+
 # remify 3.2.6
  
 * Date: 2024-05-15
