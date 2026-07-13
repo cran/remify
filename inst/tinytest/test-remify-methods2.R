@@ -102,7 +102,7 @@ out <- remify(edgelist = reh_loc$edgelist,
                 ordinal = FALSE, # REM with waiting times
                 origin = reh_loc$origin,
                 riskset = "manual",
-                manual.riskset=reh_loc$edgelist[,2:3],
+              manual_riskset=reh_loc$edgelist[,2:3],
                 model = "tie")
 expect_identical(out$meta$riskset,"active")
 expect_identical(out$meta$riskset_source,"manual")
@@ -116,7 +116,7 @@ out <- remify(edgelist = reh_loc$edgelist,
                 ordinal = FALSE, # REM with waiting times
                 origin = reh_loc$origin,
                 riskset = "manual",
-                manual.riskset=reh_loc$edgelist[1:1000,2:3],
+              manual_riskset=reh_loc$edgelist[1:1000,2:3],
                 model = "actor")
 
 expect_identical(out$meta$riskset_source,"manual")
@@ -154,27 +154,6 @@ out <- remify(edgelist = reh_loc$edgelist,
                 origin = reh_loc$origin,
                 model = "tie")
 
-# method plot()
-
-## directed = TRUE
-out <- remify(edgelist = reh_loc$edgelist,
-                directed = TRUE,
-                model = "tie")
-expect_silent(plot(x=out))
-expect_silent(plot(x=out,breaks=NULL,palette=NULL,n_intervals=NULL,rev=NULL,actors=NULL,pch.degree=NULL,igraph.edge.color=NULL,igraph.vertex.color=NULL))
-expect_silent(plot(x=out,pch.degree=-1))
-expect_silent(plot(x=out,igraph.edge.color="#000000000",igraph.vertex.color="#000000000"))
-expect_silent(plot(x=out,igraph.edge.color="magenta",igraph.vertex.color="cyan4"))
-expect_silent(plot(x=out,n_intervals = 5L))
-expect_silent(plot(x=out,actors=out$meta$dictionary$actors$actorName[1:5]))
-#
-# ## directed = FALSE
-# out <- remify(edgelist = reh_loc$edgelist,
-#                 directed = FALSE,
-#                 model = "tie")
-# expect_silent(plot(x=out))
-# expect_silent(plot(x=out,n_intervals = 5L))
-# expect_silent(plot(x=out,actors=out$meta$dictionary$actors$actorName[1:5]))
 
 # test on methods with active risk set
 out <- remify(edgelist = reh_loc$edgelist,

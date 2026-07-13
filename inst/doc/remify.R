@@ -21,7 +21,7 @@ randomREH$actors
 #   directed      = TRUE,
 #   model         = "tie",
 #   riskset       = "manual",
-#   manual.riskset = my_riskset
+#   manual_riskset = my_riskset
 # )
 
 ## -----------------------------------------------------------------------------

@@ -1,8 +1,8 @@
 Type: Package
 Package: remify
 Title: Processing and Transforming Relational Event History Data
-Version: 4.0.0
-Date: 2026-04-30
+Version: 4.1.0
+Date: 2026-07-11
 Authors@R: 
     c(person(given = "Giuseppe",
              family = "Arena",
@@ -47,7 +47,7 @@ LazyData: true
 RoxygenNote: 7.3.3
 LazyDataCompression: gzip
 NeedsCompilation: yes
-Packaged: 2026-04-30 14:06:24 UTC; jorismulder
+Packaged: 2026-07-11 10:15:13 UTC; jorismulder
 Author: Giuseppe Arena [aut, cre] (ORCID:
     <https://orcid.org/0000-0001-5204-3326>),
   Joris Mulder [aut],
@@ -58,4 +58,4 @@ Author: Giuseppe Arena [aut, cre] (ORCID:
   Mahdi Shafiee Kamalabad [ctb],
   Roger Leenders [ctb]
 Repository: CRAN
-Date/Publication: 2026-05-04 05:00:02 UTC
+Date/Publication: 2026-07-13 12:10:02 UTC

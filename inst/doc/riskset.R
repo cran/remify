@@ -196,7 +196,7 @@ reh_manual <- remify(
   model          = "tie",
   actors         = randomREH$actors,
   riskset        = "manual",
-  manual.riskset = manual_rs,
+  manual_riskset = manual_rs,
   origin         = randomREH$origin
 )
 
